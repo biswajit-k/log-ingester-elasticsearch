@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>{% block title %}{% endblock %}</title>
+    <style>
+      .mt-large {
+        margin-top: 5rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container py-4">
+        <h1 class="text-center">Logs Query Interface</h1>
+        <div class="mt-large">
+          <div class="d-flex justify-content-center my-5">
+            <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+              <input type="checkbox" class="btn-check toggle-input" id="level-btn" autocomplete="off">
+              <label class="btn btn-outline-primary" for="level-btn">Level</label>
+            
+              <input type="checkbox" class="btn-check toggle-input" id="resourceId-btn" autocomplete="off">
+              <label class="btn btn-outline-primary" for="resourceId-btn">Resource ID</label>
+            
+              <input type="checkbox" class="btn-check toggle-input" id="message-btn" autocomplete="off">
+              <label class="btn btn-outline-primary" for="message-btn">Message</label>
+              
+              <input type="checkbox" class="btn-check toggle-input" id="date-btn" autocomplete="off">
+              <label class="btn btn-outline-primary" for="date-btn">Date</label>
+            
+              <input type="checkbox" class="btn-check toggle-input" id="traceId-btn" autocomplete="off">
+              <label class="btn btn-outline-primary" for="traceId-btn">Trace ID</label>
+            
+              <input type="checkbox" class="btn-check toggle-input" id="spanId-btn" autocomplete="off">
+              <label class="btn btn-outline-primary" for="spanId-btn">Span ID</label>
+            
+              <input type="checkbox" class="btn-check toggle-input" id="commit-btn" autocomplete="off">
+              <label class="btn btn-outline-primary" for="commit-btn">Commit</label>
+            
+              <input type="checkbox" class="btn-check toggle-input" id="parentResourceId-btn" autocomplete="off">
+              <label class="btn btn-outline-primary" for="parentResourceId-btn">Metadata.parentResourceId</label>
+            </div>
+          </div>
+          <form action="" class="col-md-8 mx-auto">
+            <div class="row g-2 mb-3">
+              <div class="col-md">
+                <label for="level" class="form-label">Level</label>
+                <input disabled type="text" class="form-control" data-target="level" name="level" id="level" placeholder="error">
+              </div>
+              <div class="col-md">
+                <label for="resourceId" class="form-label">Resource ID</label>
+                <input disabled type="text" class="form-control" name="resourceId" data-target="resourceId" id="resourceId" placeholder="server-1234">
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="message" class="form-label">Message</label>
+              <input disabled type="text" class="form-control" name="message" data-target="message" id="message" placeholder="Failed to connect to DB">
+            </div>
+            <div class="row g-2 mb-3">
+              <!-- <label>Date</label> -->
+              <div class="col-md">
+                  <label for="startDate">Start date</label>
+                  <input disabled type="text" class="form-control" id="startDate" data-target="date" name="startDate" placeholder="2023-09-10T00:00:00Z">
+                  <div class="invalid-feedback">
+                    Please provide date in format YYYY-MM-DDTHH:MM:SSZ
+                  </div>
+              </div>
+              <div class="col-md">
+                  <label for="endDate">end date</label>
+                  <input disabled type="text" class="form-control" id="endDate" data-target="date" name="endDate" placeholder="2023-09-15T23:59:59Z">
+                  <div class="invalid-feedback">
+                    Please provide date in format YYYY-MM-DDTHH:MM:SSZ
+                  </div>
+              </div>
+            </div>
+            <div class="row g-2 mb-3">
+              <div class="col-md">
+                <label for="traceId" class="form-label">Trace ID</label>
+                <input disabled type="text" class="form-control" data-target="traceId" name="traceId" id="traceId" placeholder="abc-xyz-123">
+              </div>
+              <div class="col-md">
+                <label for="spanId" class="form-label">Span ID</label>
+                <input disabled type="text" class="form-control" id="spanId" data-target="spanId" name="spanId" placeholder="span-456">
+              </div>
+            </div>
+            <div class="row g-2 mb-3">
+              <div class="col-md">
+                <label for="commit" class="form-label">Commit</label>
+                <input disabled type="text" class="form-control" data-target="commit" name="commit" id="commit" placeholder="5e5342f">
+              </div>
+              <div class="col-md">
+                <label for="parentResourceId" class="form-label">metadata.parentResourceId</label>
+                <input disabled type="text" class="form-control" data-target="parentResourceId" name="parentResourceId" id="parentResourceId" placeholder="server-0987">
+              </div>
+            </div>
+            <div class="row mb-3 pt-3">
+              <button id="form-submit" type="submit" class="btn btn-primary">Search</button>
+            </div>
+          </form>
+        </div>
+        <div>
+          <h5>Result-</h5>
+          <pre class="language-json" id="logs"></pre>
+        </div>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-light.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <!-- and it's easy to individually load additional languages -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/go.min.js"></script>
+
+    <script>hljs.highlightAll();</script>
+    
+    <script>
+
+      // toggle input fields based on filter
+      $(document).ready(function() {
+        $('.toggle-input').on('change', function() {
+          const targetID = $(this).attr('id').replace('-btn', '');
+          $('[data-target="' + targetID + '"]').prop('disabled', !$(this).is(':checked'));
+        });
+      });
+
+      // check proper date format for date fields
+      $(document).ready(function() {
+          $('[data-target="date"]').on('blur', function() {
+          const inputValue = $(this).val();
+          const dateFormat = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})Z$/;
+
+          if (!dateFormat.test(inputValue) && $('#date-btn').prop('checked')) {
+            $(this).addClass('is-invalid');
+            $('#form-submit').prop('disabled', true);
+          } else {
+            $(this).removeClass('is-invalid');
+            $('#form-submit').prop('disabled', false);
+          }
+        });
+
+        $('#date-btn').on('change', function() {
+          $('[data-target="date"]').each(function() {
+          const inputValue = $(this).val();
+          const dateFormat = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})Z$/;
+
+          if($('#date-btn').prop('checked') === false) {
+            $(this).removeClass('is-invalid');
+            $('#form-submit').prop('disabled', false);
+          }
+          else if ($('#date-btn').prop('checked') === true) {
+            if(!dateFormat.test(inputValue)) {
+              $(this).addClass('is-invalid');
+              $('#form-submit').prop('disabled', true);
+            }
+            else {
+              $(this).remove('is-invalid');
+              $('#form-submit').prop('disabled', false);
+            }
+          }  
+        })
+        })
+      });  
+
+      // fetch logs
+      $(document).ready(function() {
+      $('form').submit(function(event) {
+          event.preventDefault();
+          console.log("request sent")
+
+          var formData = $(this).serialize();
+
+          $.ajax({
+              type: 'GET',
+              url: '/logs',
+              dataType: 'json',
+              data: formData,
+              success: function(response) {
+                const prettyResponse = JSON.stringify(response, null, 2);
+                $('#logs').text(prettyResponse);
+                $('#logs').removeAttr('data-highlighted');
+                hljs.highlightElement(document.querySelector('#logs'))
+              },
+              error: function(xhr, status, error) {
+                  console.error(error);
+              }
+          });
+      });  
+    });  
+    </script>
+  </body>
+</html>

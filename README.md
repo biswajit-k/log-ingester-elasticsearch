@@ -1,14 +1,4 @@
-<!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
-<a name="readme-top"></a>
-<!--
-*** Thanks for checking out the Best-README-Template. If you have a suggestion
-*** that would make this better, please fork the repo and create a pull request
-*** or simply open an issue with the tag "enhancement".
-*** Don't forget to give the project a star!
-*** Thanks again! Now go create something AMAZING! :D
--->
-
-
+<a id="readme-top"></a>
 
 <!-- PROJECT SHIELDS -->
 <!--
@@ -25,28 +15,33 @@
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
+<!-- 
+TODO:
+image logo
+search "demo video" and change link
 
+ -->
 
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+  <a href="https://github.com/biswajit-k/log-ingester-elasticsearch">
+    <img src="images/logo.png" alt="Logo" width="200">
   </a>
 
-  <h3 align="center">Best-README-Template</h3>
+<h3 align="center">LogFlow Insight</h3>
 
   <p align="center">
-    An awesome README template to jumpstart your projects!
+    Ingesting Massive Volumes, Unleashing Real-Time Queries
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/biswajit-k/log-ingester-elasticsearch"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
+    <a href="https://github.com/biswajit-k/log-ingester-elasticsearch">View Demo</a>
     ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Report Bug</a>
+    <a href="https://github.com/biswajit-k/log-ingester-elasticsearch/issues">Report Bug</a>
     ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Request Feature</a>
+    <a href="https://github.com/biswajit-k/log-ingester-elasticsearch/issues">Request Feature</a>
   </p>
 </div>
 
@@ -58,8 +53,12 @@
   <ol>
     <li>
       <a href="#about-the-project">About The Project</a>
+    </li>
+    <li>
+      <a href="#project-description">Project Description</a>
       <ul>
         <li><a href="#built-with">Built With</a></li>
+        <li><a href="#system-design">System Design</a></li>
       </ul>
     </li>
     <li>
@@ -67,10 +66,11 @@
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
+        <li><a href="#folder-structure">Folder Structure</a></li>
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#future-improvements">Future Improvements</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -83,99 +83,165 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
-
-There are many great README templates available on GitHub; however, I didn't find one that really suited my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
-
-Here's why:
-* Your time should be focused on creating something amazing. A project that solves a problem and helps others
-* You shouldn't be doing the same tasks over and over like creating a README from scratch
-* You should implement DRY principles to the rest of your life :smile:
-
-Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have contributed to expanding this template!
-
-Use the `BLANK_README.md` to get started.
+![Product Name Screen Shot][product-screenshot]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+
+## Project Description
+
+LogFlow Insight is a robust log ingester and real-time log analysis tool.
+
+The key features are:
+* **Easy method to store logs**: Simple http server that accepts logs
+* **Intuitive UI**: Easily query logs based on multiple filters
+* **Real-Time Analysis**: Logs are available to query as soon as they are provided
+* **Speed**: Get query results in lightning fast speed.
+* **High Availability**: Deploy once and use from anywhere anytime
+* **Scalable**: Scale horizontally with simple configuration tweaks
+* **Easy Setup**: Get started quickly with minimal manual work
 
 
 ### Built With
 
-This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
-
-* [![Next][Next.js]][Next-url]
-* [![React][React.js]][React-url]
-* [![Vue][Vue.js]][Vue-url]
-* [![Angular][Angular.io]][Angular-url]
-* [![Svelte][Svelte.dev]][Svelte-url]
-* [![Laravel][Laravel.com]][Laravel-url]
-* [![Bootstrap][Bootstrap.com]][Bootstrap-url]
-* [![JQuery][JQuery.com]][JQuery-url]
+* [![ElasticSearch]][elastic-url]
+* [![FastAPI]][fastapi-url]
+* [![Flask]][flask-url]
+* [![Docker]][docker-url]
+* [![bootstrap]][bootstrap-url]
+* [![jquery]][jquery-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+### System Design
+
+The software is designed to work as a distributed system with client facing server for logs ingestion(FastAPI) and UI frontend for searching logs(Flask), a highly efficient data store for quick search(ElasticSearch). Justification for the decisions for each of the components is given below-
+
+* **ElasticSearch**: 
+  * **Lucene Engine**: It is built on top of Apache Lucene which uses inverted index which is a data structure optimized for quick full-text searches.
+  * **Distributed and Sharded Architecture**: Elasticsearch distributes data across multiple nodes in a cluster and divided into shards, allowing parallel processing.
+  * **Near Real-Time Search**: Elasticsearch offers near real-time search capabilities. As soon as data is indexed, it becomes searchable.
+
+* **FastAPI**:
+  * **Performance**: FastAPI is built on top of Starlette and Pydantic. Starlette is a high-performance web framework, while Pydantic provides quick serialization of data.
+  * **Concurrency**: FastAPI leverages Python's asyncio to handle asynchronous operations. It allows handling multiple concurrent requests without blocking, maximizing the server's efficiency.
+  
+  *Note that a better alternative for frontend facing server for this usecase is **Apache Kafka** Topic that in simple terms provides a queue that can handle high volume of data ingestion in real-time.
+  I have used FastAPI due to time constraints, so that I could get working project up quickly*
+* **Flask**:
+  * **Lightweight and Flexible**: Flask is designed as a minimal framework to get started. It has a support of multiple extensions for different usecases and integration.
+  * **Fewer Dependencies**: Flask has minimal dependencies beyond Python itself. This makes deployment and maintenance easier.
+  * **Quick Setup**: Flask allows quick setup to get basic web server up and running with just a few lines of code.
+
+Below is the basic diagram for system. I would highly recommend you to check out my video explanation of complete project here to get a better understanding.
+
+![System Design][system-design-fastapi]
+
+You would obviously not want your servers to directly get exposed to the internet, so we would have load balancers in between.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
 To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+Make sure that you have docker installed. Docker would help us to work with above components using containers very easily. If you don't have Docker, visit the [official site](https://docs.docker.com/get-docker/) to install it.
 
 ### Installation
 
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
+1. Clone the repo
+   ```sh
+   git clone https://github.com/biswajit-k/log-ingester-elasticsearch.git
+   ```
+2. Get the components running in containers according to `docker-compose.yaml`
+    ```sh
+      docker compose up -d
+    ```
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/your_username_/Project-Name.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
+Below services will be available-
+* Log Ingester Server: `http://localhost:3000`
+* Query Interface: `http://localhost:5000`
+* Elasticserach: `http://localhost:9200`
+
+You won't need to do anything with Elasticsearch unless you are developing this software.
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+### Folder Structure
 
+```
+├── docker-compose.yaml
+├── README.md
+├── LICENSE.txt
+└── ingester_server
+    ├── main.py
+    ├── models.py
+    ├── requirements.py
+    ├── .prod.env
+    ├── dockerfile
+└── query_interface
+    ├── templates
+        ├── index.html
+    ├── app.py
+    ├── models.py
+    ├── .prod.env
+    ├── requirements.txt
+    ├── dockerfile
+
+```
+
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+* **Ingesting Logs**: 
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+  You can check if the ingester server is started by simply sending a GET request at `http://localhost:3000`, it should give you a simple hello world response.
+  Now you are ready to ingest logs. Send POST request to server at `http://localhost:3000/logs` in the JSON format specified below:
+
+* **Query Interface**: 
+  
+  Simply head over to `http://localhost:5000` to access the interface.
+
+***Note**: You can tailor format according to your needs by changing data model in `models.py` and `app/main.py` in both `/ingester_server` and `/query_interface` folders*
+
+
+_For demo, please refer to the video [Demo Video](https://example.com)_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
 <!-- ROADMAP -->
-## Roadmap
+## Future Improvements
 
-- [x] Add Changelog
-- [x] Add back to top links
-- [ ] Add Additional Templates w/ Examples
-- [ ] Add "components" document to easily copy & paste sections of the readme
-- [ ] Multi-language Support
-    - [ ] Chinese
-    - [ ] Spanish
+Some improvements in design and implementation are mentioned below-
 
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
+**Using Kafka instead of FastAPI and Load Balancer**
+
+ Kafka is better suited for this usecase as it can handle large volume of requests asynchronously and provides resiliency by ensuring each message is delivered exactly once(which means no logs losses and no duplication). Apart from that, **Kafka connectors** provides serializing/deserializing capabilities and integration with multiple storage and sinks so any type of log data can be stored in any format.
+ 
+ Below is a system design for this architecture:
+![System Design][system-design-kafka]
+
+**Enhancing Durability**
+
+  Elasticsearch instances can go down if it gets massive loads of data. To get it back up and running would take time and we would loose log data for that much time. If log data is valuable and we can't afford to loose any of it then we could also add a **transactional database** which would parallelly also store these logs. Transactional database being ACID complaint would ensure that the data is not lost incase Elasticsearch instances go down.
+
+
+**Improving Elasticsearch Fault Tolerance**
+
+  Having **cluster and replicas** of Elasticsearch instances will ensure that if some instance goes down others are available to index logs and provide search result.
+
+
+See the [contribution section](#contributing) to propose more improvements.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -211,9 +277,9 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
+Biswajit Kaushik - [linkedin](https://twitter.com/twitter_handle), biswajitkaushik02@gmail.com
 
-Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
+Project Link: [https://github.com/biswajit-k/log-ingester-elasticsearch](https://github.com/biswajit-k/log-ingester-elasticsearch)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -222,16 +288,9 @@ Project Link: [https://github.com/your_username/repo_name](https://github.com/yo
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
-
-* [Choose an Open Source License](https://choosealicense.com)
-* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-* [Malven's Flexbox Cheatsheet](https://flexbox.malven.co/)
-* [Malven's Grid Cheatsheet](https://grid.malven.co/)
-* [Img Shields](https://shields.io)
-* [GitHub Pages](https://pages.github.com)
-* [Font Awesome](https://fontawesome.com)
-* [React Icons](https://react-icons.github.io/react-icons/search)
+* [How Twitter keeps its search systems up and stable at scale by Arpit Bhyani](https://www.youtube.com/watch?v=dOyCq_mMtdI)
+* [Structured Streaming Using Flask Kafka PySpark Elasticsearch Kibana](https://github.com/ercan5535/Structured-Streaming-Flask-Kafka-PySpark-Elasticsearch-Kibana)
+* [Elasticsearch Docs][elastic-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -239,32 +298,30 @@ Use this space to list resources you find helpful and would like to give credit 
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
-[contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
-[forks-url]: https://github.com/othneildrew/Best-README-Template/network/members
-[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
-[stars-url]: https://github.com/othneildrew/Best-README-Template/stargazers
-[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
-[issues-url]: https://github.com/othneildrew/Best-README-Template/issues
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
-[license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
+[contributors-shield]: https://img.shields.io/github/contributors/biswajit-k/log-ingester-elasticsearch.svg?style=for-the-badge
+[contributors-url]: https://github.com/biswajit-k/log-ingester-elasticsearch/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/biswajit-k/log-ingester-elasticsearch.svg?style=for-the-badge
+[forks-url]: https://github.com/biswajit-k/log-ingester-elasticsearch/network/members
+[stars-shield]: https://img.shields.io/github/stars/biswajit-k/log-ingester-elasticsearch.svg?style=for-the-badge
+[stars-url]: https://github.com/biswajit-k/log-ingester-elasticsearch/stargazers
+[issues-shield]: https://img.shields.io/github/issues/biswajit-k/log-ingester-elasticsearch.svg?style=for-the-badge
+[issues-url]: https://github.com/biswajit-k/log-ingester-elasticsearch/issues
+[license-shield]: https://img.shields.io/github/license/biswajit-k/log-ingester-elasticsearch.svg?style=for-the-badge
+[license-url]: https://github.com/biswajit-k/log-ingester-elasticsearch/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/othneildrew
-[product-screenshot]: images/screenshot.png
-[Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
-[Next-url]: https://nextjs.org/
-[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
-[React-url]: https://reactjs.org/
-[Vue.js]: https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D
-[Vue-url]: https://vuejs.org/
-[Angular.io]: https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white
-[Angular-url]: https://angular.io/
-[Svelte.dev]: https://img.shields.io/badge/Svelte-4A4A55?style=for-the-badge&logo=svelte&logoColor=FF3E00
-[Svelte-url]: https://svelte.dev/
-[Laravel.com]: https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white
-[Laravel-url]: https://laravel.com
-[Bootstrap.com]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
-[Bootstrap-url]: https://getbootstrap.com
-[JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
-[JQuery-url]: https://jquery.com 
+[linkedin-url]: https://linkedin.com/in/biswajit-kaushik
+[product-screenshot]: images/design-fastapi.png
+[system-design-fastapi]: images/design-fastapi.png
+[system-design-kafka]: images/design-kafka.png
+[ElasticSearch]: https://img.shields.io/badge/-ElasticSearch-00bfb3?style=for-the-badge&logo=elasticsearch&logoColor=f9b110
+[elastic-url]: https://www.elastic.co/elasticsearch
+[FastAPI]: https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi
+[fastapi-url]: https://fastapi.tiangolo.com/
+[Flask]: https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask
+[flask-url]: https://flask.palletsprojects.com/
+[Docker]: https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white
+[docker-url]: https://www.docker.com/
+[bootstrap]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
+[bootstrap-url]: https://getbootstrap.com
+[jquery]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
+[jquery-url]: https://jquery.com 
