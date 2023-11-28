@@ -93,10 +93,10 @@ search "demo video" and change link
 LogFlow Insight is a robust log ingester and real-time log analysis tool.
 
 The key features are:
-* **Easy method to store logs**: Simple http server that accepts logs
+* **Easy method to store logs**: Simple HTTP server that accepts logs
 * **Intuitive UI**: Easily query logs based on multiple filters
 * **Real-Time Analysis**: Logs are available to query as soon as they are provided
-* **Speed**: Get query results in lightning fast speed.
+* **Speed**: Get query results in lightning-fast speed.
 * **High Availability**: Deploy once and use from anywhere anytime
 * **Scalable**: Scale horizontally with simple configuration tweaks
 * **Easy Setup**: Get started quickly with minimal manual work
@@ -115,25 +115,25 @@ The key features are:
 
 ### System Design
 
-The software is designed to work as a distributed system with client facing server for logs ingestion(FastAPI) and UI frontend for searching logs(Flask), a highly efficient data store for quick search(ElasticSearch). Justification for the decisions for each of the components is given below-
+The software is designed to work as a distributed system with client-facing server for logs ingestion(FastAPI) and a UI frontend for searching logs(Flask), a highly efficient data store for quick search(ElasticSearch). Justification for the decisions for each of the components is given below-
 
 * **ElasticSearch**: 
-  * **Lucene Engine**: It is built on top of Apache Lucene which uses inverted index which is a data structure optimized for quick full-text searches.
-  * **Distributed and Sharded Architecture**: Elasticsearch distributes data across multiple nodes in a cluster and divided into shards, allowing parallel processing.
+  * **Lucene Engine**: It is built on top of Apache Lucene which uses an inverted index which is a data structure optimized for quick full-text searches.
+  * **Distributed and Sharded Architecture**: Elasticsearch distributes data across multiple cluster nodes and divides it into shards, allowing parallel processing.
   * **Near Real-Time Search**: Elasticsearch offers near real-time search capabilities. As soon as data is indexed, it becomes searchable.
 
 * **FastAPI**:
-  * **Performance**: FastAPI is built on top of Starlette and Pydantic. Starlette is a high-performance web framework, while Pydantic provides quick serialization of data.
-  * **Concurrency**: FastAPI leverages Python's asyncio to handle asynchronous operations. It allows handling multiple concurrent requests without blocking, maximizing the server's efficiency.
+  * **Performance**: FastAPI is built on top of Starlette and Pydantic. Starlette is a high-performance web framework, while Pydantic provides quick data serialisation.
+  * **Concurrency**: FastAPI leverages Python's *asyncio* to handle asynchronous operations. It allows handling multiple concurrent requests without blocking, maximizing the server's efficiency.
   
-  *Note that a better alternative for frontend facing server for this usecase is **Apache Kafka** Topic that in simple terms provides a queue that can handle high volume of data ingestion in real-time.
-  I have used FastAPI due to time constraints, so that I could get working project up quickly*
+  *Note that a better alternative for a frontend facing server for this use case is **Apache Kafka** Topic that in simple terms provides a queue that can handle a high volume of data ingestion in real-time.
+  I have used FastAPI due to time constraints so that I could get the working project up quickly*
 * **Flask**:
-  * **Lightweight and Flexible**: Flask is designed as a minimal framework to get started. It has a support of multiple extensions for different usecases and integration.
+  * **Lightweight and Flexible**: Flask is designed as a minimal framework to get started. It has the support of multiple extensions for different use cases and integration.
   * **Fewer Dependencies**: Flask has minimal dependencies beyond Python itself. This makes deployment and maintenance easier.
-  * **Quick Setup**: Flask allows quick setup to get basic web server up and running with just a few lines of code.
+  * **Quick Setup**: Flask allows quick setup to get a basic web server up and running with just a few lines of code.
 
-Below is the basic diagram for system. I would highly recommend you to check out my video explanation of complete project here to get a better understanding.
+Below is the basic diagram for the system. I would highly recommend you check out my video explanation of the complete project here to get a better understanding.
 
 ![System Design][system-design-fastapi]
 
@@ -149,7 +149,7 @@ To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-Make sure that you have docker installed. Docker would help us to work with above components using containers very easily. If you don't have Docker, visit the [official site](https://docs.docker.com/get-docker/) to install it.
+Make sure that you have docker installed. Docker would help us to work with the above components using containers very easily. If you don't have Docker, visit the [official site](https://docs.docker.com/get-docker/) to install it.
 
 ### Installation
 
@@ -204,13 +204,13 @@ You won't need to do anything with Elasticsearch unless you are developing this 
 * **Ingesting Logs**: 
 
   You can check if the ingester server is started by simply sending a GET request at `http://localhost:3000`, it should give you a simple hello world response.
-  Now you are ready to ingest logs. Send POST request to server at `http://localhost:3000/logs` in the JSON format specified below:
+  Now you are ready to ingest logs. Send a POST request to the server at `http://localhost:3000/logs` in the JSON format specified below:
 
 * **Query Interface**: 
   
   Simply head over to `http://localhost:5000` to access the interface.
 
-***Note**: You can tailor format according to your needs by changing data model in `models.py` and `app/main.py` in both `/ingester_server` and `/query_interface` folders*
+***Note**: You can tailor the format according to your needs by changing the data model in `models.py` and `app/main.py` in both `/ingester_server` and `/query_interface` folders*
 
 
 _For demo, please refer to the video [Demo Video](https://example.com)_
@@ -226,14 +226,14 @@ Some improvements in design and implementation are mentioned below-
 
 **Using Kafka instead of FastAPI and Load Balancer**
 
- Kafka is better suited for this usecase as it can handle large volume of requests asynchronously and provides resiliency by ensuring each message is delivered exactly once(which means no logs losses and no duplication). Apart from that, **Kafka connectors** provides serializing/deserializing capabilities and integration with multiple storage and sinks so any type of log data can be stored in any format.
+ Kafka is better suited for this use case as it can handle large volumes of requests asynchronously and provides resiliency by ensuring each message is delivered exactly once(which means no log losses and no duplication). Apart from that, **Kafka connectors** provide serializing/deserializing capabilities and integration with multiple storage and sinks so any type of log data can be stored in any format.
  
  Below is a system design for this architecture:
 ![System Design][system-design-kafka]
 
 **Enhancing Durability**
 
-  Elasticsearch instances can go down if it gets massive loads of data. To get it back up and running would take time and we would loose log data for that much time. If log data is valuable and we can't afford to loose any of it then we could also add a **transactional database** which would parallelly also store these logs. Transactional database being ACID complaint would ensure that the data is not lost incase Elasticsearch instances go down.
+  Elasticsearch instances can go down if they get massive loads of data. To get it back up and running would take time and we would lose log data for that much time. If log data is valuable and we can't afford to lose any of it then we could also add a **transactional database** which would parallelly also store these logs. A transactional database being ACID complaint would ensure that the data is not lost in case Elasticsearch instances go down.
 
 
 **Improving Elasticsearch Fault Tolerance**
@@ -250,7 +250,7 @@ See the [contribution section](#contributing) to propose more improvements.
 <!-- CONTRIBUTING -->
 ## Contributing
 
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+Contributions are what makes the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
 If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
 Don't forget to give the project a star! Thanks again!
