@@ -1,3 +1,4 @@
+import os
 from elasticsearch_dsl import InnerDoc, Object, Document, Text, Date, Keyword
 
 
@@ -15,5 +16,5 @@ class Log(Document):
     metadata = Object(LogMetaData)
 
     class Index:
-        name='log-index'
+        name=os.environ.get('KAFKA_TOPIC')
 

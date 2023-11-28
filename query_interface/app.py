@@ -3,14 +3,16 @@ from flask import Flask, render_template, request
 from elasticsearch_dsl import connections, Q
 from dotenv import load_dotenv
 
+# load environment variables
+load_dotenv('./../.env')                                # docker related
+load_dotenv('.local.env', override=True)                # dev related
+
 from models import Log
 
-# load environment variables
-load_dotenv('.dev.env')
 
 app = Flask(__name__)
 
-connections.create_connection(hosts=os.environ.get('ES_HOST_URL'))
+connections.create_connection(hosts=f"http://{os.environ.get('ELASTIC_HOST')}:9200")
 
 @app.route('/')
 def home():
@@ -53,8 +55,3 @@ def get_logs():
     # return logs
     logs = [log['_source'] for log in response['hits']['hits']]
     return logs
-
-
-if (__name__ == "__main__"):
-    app.run()
-

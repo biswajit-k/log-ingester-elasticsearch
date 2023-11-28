@@ -1,0 +1,22 @@
+# build specified according to parent directory context
+# so current directory=log-ingester-elasticsearch folder
+
+FROM python:3.9
+
+# 
+WORKDIR /code
+
+# 
+COPY ingester/requirements.txt ./
+
+# 
+RUN pip install --no-cache-dir --upgrade -r ./requirements.txt
+
+# 
+COPY ingester .
+COPY .env ./..
+
+EXPOSE 3000
+
+# 
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "3000"]

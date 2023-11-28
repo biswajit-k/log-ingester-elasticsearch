@@ -1,5 +1,10 @@
 __pycache__
-start.txt
+snippet.txt
 sample.txt
-.dev.env
 utils.py
+azure-deploy.yml
+
+connect-plugins/*
+!connect-plugins/*.zip
+
+
