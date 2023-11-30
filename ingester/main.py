@@ -35,7 +35,7 @@ async def lifespan(app:  FastAPI):
     headers = {
         'Content-Type': 'application/json'
     }
-    url = f'http://{KAFKA_CONNECT.HOST}:9300'
+    url = f'http://{KAFKA_CONNECT.HOST}:8083'
 
     response = requests.post(url=url,
                 json=config, headers=headers)
