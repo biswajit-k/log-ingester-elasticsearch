@@ -34,14 +34,21 @@ services:
     ports:
       - '8083:8083'
     depends_on:
-      zookeeper:
-        condition: service_started
       kafka:
         condition: service_started
       elastic:
         condition: service_healthy
     volumes:
       - "./connect-plugins:/connect-plugins"
+    healthcheck:
+      test:     
+        [
+          "CMD-SHELL",
+          "curl localhost:8083/ | grep -q commit"
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 24  
     environment:
       CONNECT_BOOTSTRAP_SERVERS: kafka:29092
       CONNECT_REST_PORT: 8083
@@ -104,4 +111,4 @@ services:
       - "3000:3000"
     depends_on:
       kafka-connect:
-        condition: service_started
+        condition: service_healthy
