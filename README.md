@@ -95,7 +95,8 @@ LogFlow Insight is a robust log ingester and real-time log analysis tool.
 The key features are:
 * **Easy method to store logs**: Simple HTTP server that accepts logs
 * **Intuitive UI**: Easily query logs based on multiple filters
-* **Real-Time Analysis**: Logs are available to query as soon as they are provided
+* **High Throughput**: Able to handle large volume of log ingestion.
+* **Real-Time Analysis**: Logs are available to query as soon as they are ingested
 * **Speed**: Get query results in lightning-fast speed.
 * **High Availability**: Deploy once and use from anywhere anytime
 * **Scalable**: Scale horizontally with simple configuration tweaks
@@ -115,19 +116,23 @@ The key features are:
 
 ### System Design
 
-The software is designed to work as a distributed system with client-facing server for logs ingestion(FastAPI) and a UI frontend for searching logs(Flask), a highly efficient data store for quick search(ElasticSearch). Justification for the decisions for each of the components is given below-
-
-* **ElasticSearch**: 
-  * **Lucene Engine**: It is built on top of Apache Lucene which uses an inverted index which is a data structure optimized for quick full-text searches.
-  * **Distributed and Sharded Architecture**: Elasticsearch distributes data across multiple cluster nodes and divides it into shards, allowing parallel processing.
-  * **Near Real-Time Search**: Elasticsearch offers near real-time search capabilities. As soon as data is indexed, it becomes searchable.
+The software is designed to work as a distributed system with client-facing server for logs ingestion(FastAPI) and a UI frontend for searching logs(Flask). Kafka brokers are used to asynchronously handle high volume of logs sent by the ingester server. Kafka-Connect is used to serialize the data and send for storage. Elasticsearch is used as the database for quick indexing and full-text search capabilities. Justification for the decisions for each of the components is given below-
 
 * **FastAPI**:
   * **Performance**: FastAPI is built on top of Starlette and Pydantic. Starlette is a high-performance web framework, while Pydantic provides quick data serialisation.
   * **Concurrency**: FastAPI leverages Python's *asyncio* to handle asynchronous operations. It allows handling multiple concurrent requests without blocking, maximizing the server's efficiency.
-  
-  *Note that a better alternative for a frontend facing server for this use case is **Apache Kafka** Topic that in simple terms provides a queue that can handle a high volume of data ingestion in real-time.
-  I have used FastAPI due to time constraints so that I could get the working project up quickly*
+* **Kafka**:
+  * **High Volume**: Kafka is designed for high-throughput scenarios. Kafka's design minimizes disk I/O, making it efficient in handling massive message volumes with minimal latency.
+  * **Fault-Tolerance**: Kafka replicates data across multiple brokers, ensuring that even if some nodes fail, data remains available. 
+  * **Scalability**: Kafka is horizontally scalable, allowing it to handle enormous volumes of data by distributing it across multiple nodes. It gurantees no data loss.
+* **Kafka-Connect**: 
+  * **Reliability**: Kafka-Connect includes support for fault recovery, ensuring that if a connector or node fails, the system can recover and resume operations.
+  * **Schema Evolution**: Kafka Connect supports schema evolution, allowing for changes in data structure over time without disrupting the data pipeline.
+  * **Batch-Processing**: Kafka Connect utilize batch processing mechanisms, enabling it to collect and process data in larger chunks or batches thereby increasing throughput and minimizing load on database.
+* **Elasticsearch**: 
+  * **Lucene Engine**: It is built on top of Apache Lucene which uses an inverted index which is a data structure optimized for quick full-text searches and aggregate operations for data analysis.
+  * **Distributed and Sharded Architecture**: Elasticsearch distributes data across multiple cluster nodes and divides it into shards, allowing parallel processing.
+  * **Near Real-Time Search**: Elasticsearch offers near real-time search capabilities. As soon as data is indexed, it becomes searchable.
 * **Flask**:
   * **Lightweight and Flexible**: Flask is designed as a minimal framework to get started. It has the support of multiple extensions for different use cases and integration.
   * **Fewer Dependencies**: Flask has minimal dependencies beyond Python itself. This makes deployment and maintenance easier.
@@ -135,12 +140,21 @@ The software is designed to work as a distributed system with client-facing serv
 
 Below is the basic diagram for the system. I would highly recommend you check out my video explanation of the complete project here to get a better understanding.
 
-![System Design][system-design-fastapi]
+![System Design][system-design-kafka]
 
-You would obviously not want your servers to directly get exposed to the internet, so we would have load balancers in between.
+Note that I have not used load balancer in the demo. You should use it if you are going for production.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+
+### Performance
+Load test has been performed on this system using [siege](https://github.com/JoeDog/siege). Test is run on 16GB RAM system with all services running in docker containers.
+Note that single instance of FastAPI, Elasticsearch and Kafka Broker is used without load balancing.
+
+The system is able to handle 500 log ingestion requests/second on this local setup.
+
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -224,13 +238,6 @@ _For demo, please refer to the video [Demo Video](https://example.com)_
 
 Some improvements in design and implementation are mentioned below-
 
-**Using Kafka instead of FastAPI and Load Balancer**
-
- Kafka is better suited for this use case as it can handle large volumes of requests asynchronously and provides resiliency by ensuring each message is delivered exactly once(which means no log losses and no duplication). Apart from that, **Kafka connectors** provide serializing/deserializing capabilities and integration with multiple storage and sinks so any type of log data can be stored in any format.
- 
- Below is a system design for this architecture:
-![System Design][system-design-kafka]
-
 **Enhancing Durability**
 
   Elasticsearch instances can go down if they get massive loads of data. To get it back up and running would take time and we would lose log data for that much time. If log data is valuable and we can't afford to lose any of it then we could also add a **transactional database** which would parallelly also store these logs. A transactional database being ACID complaint would ensure that the data is not lost in case Elasticsearch instances go down.
@@ -310,7 +317,7 @@ Project Link: [https://github.com/biswajit-k/log-ingester-elasticsearch](https:/
 [license-url]: https://github.com/biswajit-k/log-ingester-elasticsearch/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/biswajit-kaushik
-[product-screenshot]: images/design-fastapi.png
+[product-screenshot]: images/screenshot.png
 [system-design-fastapi]: images/design-fastapi.png
 [system-design-kafka]: images/design-kafka.png
 [ElasticSearch]: https://img.shields.io/badge/-ElasticSearch-00bfb3?style=for-the-badge&logo=elasticsearch&logoColor=f9b110
