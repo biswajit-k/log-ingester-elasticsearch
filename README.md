@@ -37,7 +37,7 @@ search "demo video" and change link
     <a href="https://github.com/biswajit-k/log-ingester-elasticsearch"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://youtu.be/JjedCSq7-J0" target="_blank">View Demo</a>
+    <a href="https://youtu.be/JjedCSq7-J0">View Demo</a>
     ·
     <a href="https://github.com/biswajit-k/log-ingester-elasticsearch/issues">Report Bug</a>
     ·
