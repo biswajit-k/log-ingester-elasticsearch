@@ -86,6 +86,9 @@ search "demo video" and change link
 ## About The Project
 
 
+https://github.com/biswajit-k/log-ingester-elasticsearch/assets/76483357/298fa716-4fda-43de-ad11-3ab5738c0d3f
+
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
