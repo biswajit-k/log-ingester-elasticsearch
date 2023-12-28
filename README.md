@@ -37,7 +37,7 @@ search "demo video" and change link
     <a href="https://github.com/biswajit-k/log-ingester-elasticsearch"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/biswajit-k/log-ingester-elasticsearch">View Demo</a>
+    <a href="https://youtu.be/JjedCSq7-J0" target="_blank">View Demo</a>
     ·
     <a href="https://github.com/biswajit-k/log-ingester-elasticsearch/issues">Report Bug</a>
     ·
@@ -61,6 +61,7 @@ search "demo video" and change link
         <li><a href="#system-design">System Design</a></li>
         <li><a href="#user-interface">User Interface</a></li>
         <li><a href="#performance">Performance</a></li>
+        <li><a href="#video-demo">Video Demo</a></li>
       </ul>
     </li>
     <li>
@@ -144,7 +145,7 @@ The software is designed to work as a distributed system with client-facing serv
   * **Fewer Dependencies**: Flask has minimal dependencies beyond Python itself. This makes deployment and maintenance easier.
   * **Quick Setup**: Flask allows quick setup to get a basic web server up and running with just a few lines of code.
 
-Below is the basic diagram for the system. I would highly recommend you check out my video explanation of the complete project here to get a better understanding.
+Below is the basic diagram for the system. I would highly recommend you check out my video explanation of the complete project [here](https://youtu.be/JjedCSq7-J0) to get a better understanding.
 
 ![System Design][system-design-kafka]
 
@@ -167,6 +168,9 @@ Note that single instance of FastAPI, Elasticsearch and Kafka Broker is used wit
 <img src="images/performance.png" alt="drawing" width="400"/>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### Video Demo
+I have create a Youtube video showing the demo of this system, the link to which is [here](https://youtu.be/JjedCSq7-J0).
 
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -254,7 +258,7 @@ You won't need to do anything with Elasticsearch unless you are developing this 
 ***Note**: You can tailor the format according to your needs by changing the data model in `models.py` and `app/main.py` in both `ingester` and `query_interface` folders*
 
 
-_For demo, please refer to the video [Demo Video](https://example.com)_
+_For demo, please refer to the [Demo Video](https://youtu.be/JjedCSq7-J0)_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
