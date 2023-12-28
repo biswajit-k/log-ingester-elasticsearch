@@ -251,7 +251,7 @@ You won't need to do anything with Elasticsearch unless you are developing this 
   
   Simply head over to `http://localhost:5000` to access the interface.
 
-***Note**: You can tailor the format according to your needs by changing the data model in `models.py` and `app/main.py` in both `/ingester` and `/query_interface` folders*
+***Note**: You can tailor the format according to your needs by changing the data model in `models.py` and `app/main.py` in both `ingester` and `query_interface` folders*
 
 
 _For demo, please refer to the video [Demo Video](https://example.com)_
