@@ -59,6 +59,8 @@ search "demo video" and change link
       <ul>
         <li><a href="#built-with">Built With</a></li>
         <li><a href="#system-design">System Design</a></li>
+        <li><a href="#user-interface">User Interface</a></li>
+        <li><a href="#performance">Performance</a></li>
       </ul>
     </li>
     <li>
@@ -83,7 +85,7 @@ search "demo video" and change link
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-![Product Name Screen Shot][product-screenshot]
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -148,12 +150,18 @@ Note that I have not used load balancer in the demo. I would highly recommend it
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
+### User Interface
+
+![Product Name Screen Shot][product-screenshot]
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
 ### Performance
 Load test has been performed on this system using [siege](https://github.com/JoeDog/siege). Test is run on a linux based system with 16GB RAM and all services running in docker containers.
 Note that single instance of FastAPI, Elasticsearch and Kafka Broker is used without load balancing.
 
-The system is able to handle more than 500 log ingestion requests per second on this local setup.
-
+<img src="images/performance.png" alt="drawing" width="400"/>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -336,6 +344,7 @@ Project Link: [https://github.com/biswajit-k/log-ingester-elasticsearch](https:/
 [product-screenshot]: images/screenshot.png
 [system-design-fastapi]: images/design-fastapi.png
 [system-design-kafka]: images/design-kafka.png
+[performance]: images/performance.png
 [ElasticSearch]: https://img.shields.io/badge/-ElasticSearch-00bfb3?style=for-the-badge&logo=elasticsearch&logoColor=f9b110
 [elastic-url]: https://www.elastic.co/elasticsearch
 [FastAPI]: https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi
